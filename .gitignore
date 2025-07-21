@@ -45,3 +45,4 @@ next-env.d.ts
 /backend/target
 /backend/.env
 /backend/.idea
+/backend/rest/http-client.private.env.json

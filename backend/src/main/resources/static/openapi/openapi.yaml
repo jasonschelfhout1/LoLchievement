@@ -7,9 +7,48 @@ servers:
   - url: http://localhost:8080
 
 paths:
+  ### Achievement
+  /api/achievements:
+    get:
+      operationId: getAllAchievements
+      summary: Get all Achievement
+      tags:
+        - Achievement
+      responses:
+        '200':
+          description: Achievement information
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AchievementDTO'
+  /api/achievements/{id}:
+    get:
+      operationId: getAchievementById
+      summary: Get achievement by id
+      tags:
+        - Achievement
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+          description: Achievement uuid
+      responses:
+        '200':
+          description: Achievement information
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AchievementDTO'
+
+  ### Player
   /api/players/{id}:
     get:
+      operationId: getPlayerById
       summary: Get player by PUUID
+      tags:
+        - Player
       parameters:
         - name: id
           in: path
@@ -23,8 +62,37 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/playerDTO'
+                $ref: '#/components/schemas/PlayerDTO'
+  /api/players/{gameName}/{tagName}:
+    get:
+      operationId: getPlayerByGameAndTagName
+      summary: Get player by gameName and tagName
+      tags:
+        - Player
+      parameters:
+        - name: gameName
+          in: path
+          required: true
+          schema:
+            type: string
+          description: In game player name
+        - name: tagName
+          in: path
+          required: true
+          schema:
+            type: string
+          description: Player tag name
+      responses:
+        '200':
+          description: Player information
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PlayerDTO'
+
 components:
   schemas:
-    playerDTO:
+    PlayerDTO:
       $ref: './components/schemas/playerDTO.yaml'
+    AchievementDTO:
+      $ref: './components/schemas/achievementDTO.yaml'

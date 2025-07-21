@@ -6,3 +6,18 @@ springdoc:
     enabled: false
   swagger-ui:
     url: /openapi.yaml
+riot:
+  dev:
+    key: RGAPI-47771bbe-0305-4f36-873f-2b15e45e3be6
+  region: europe
+  api:
+    base: api.riotgames.com/
+    key:
+      riot:
+        player:
+          name: riot/account/v1/accounts/
+server:
+  port: 8080
+logging:
+  level:
+    com.lolchievement: DEBUG

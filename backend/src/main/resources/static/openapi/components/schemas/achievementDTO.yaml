@@ -2,11 +2,11 @@ type: object
 properties:
   id:
     type: string
-  gameName:
+  title:
     type: string
-  tagName:
-    type: string
+  level:
+    type: integer
 required:
   - id
-  - gameName
-  - tagName
+  - username
+  - level

@@ -1,0 +1,18 @@
+###
+GET http://localhost:8080/api/player/9yKH6K5ixBn28LJ2_0A6alPrwZYOjPfvn0nLDTu993RJtUEqnWemnfSVlzM9mKYlhM4_gBMBnJOj5Q
+Accept: application/json
+
+###
+GET http://localhost:8080/api/player/by-name?gameName=DoktorDiabetes&tagLine=BLUP
+Accept: application/json
+
+
+###
+GET https://europe.api.riotgames.com/riot/account/v1/accounts/by-riot-id/DoktorDiabetes/BLUP
+X-Riot-Token: {{token}}
+Accept: application/json
+
+###
+GET https://europe.api.riotgames.com/riot/account/v1/accounts/by-puuid/9yKH6K5ixBn28LJ2_0A6alPrwZYOjPfvn0nLDTu993RJtUEqnWemnfSVlzM9mKYlhM4_gBMBnJOj5Q
+X-Riot-Token: {{token}}
+Accept: application/json
