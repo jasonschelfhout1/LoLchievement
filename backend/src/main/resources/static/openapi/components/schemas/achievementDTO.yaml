@@ -1,12 +1,20 @@
 type: object
 properties:
-  id:
-    type: string
-  title:
-    type: string
-  level:
+  challengeId:
     type: integer
+    format: int64
+  level:
+    type: string
+  value:
+    type: number
+    format: double
+  percentile:
+    type: number
+    format: double
+  achievedTime:
+    type: integer
+    format: int64
 required:
-  - id
-  - username
+  - challengeId
   - level
+  - value

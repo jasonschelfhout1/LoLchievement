@@ -8,40 +8,28 @@ servers:
 
 paths:
   ### Achievement
-  /api/achievements:
+  /api/achievements/{pUUID}:
     get:
-      operationId: getAllAchievements
-      summary: Get all Achievement
-      tags:
-        - Achievement
-      responses:
-        '200':
-          description: Achievement information
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/AchievementDTO'
-  /api/achievements/{id}:
-    get:
-      operationId: getAchievementById
-      summary: Get achievement by id
+      operationId: getPlayerAchievementByPUUID
+      summary: Get all player achievements by pUUID
       tags:
         - Achievement
       parameters:
-        - name: id
+        - name: pUUID
           in: path
           required: true
           schema:
             type: string
-          description: Achievement uuid
+          description: Player uuid
       responses:
         '200':
-          description: Achievement information
+          description: Player achievement information
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/AchievementDTO'
-
+                type: array
+                items:
+                  $ref: '#/components/schemas/AchievementDTO'
   ### Player
   /api/players/{id}:
     get:

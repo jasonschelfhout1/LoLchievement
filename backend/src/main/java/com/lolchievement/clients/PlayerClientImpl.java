@@ -2,25 +2,34 @@ package com.lolchievement.clients;
 
 import com.lolchievement.clients.exceptions.PlayerClientException;
 import com.lolchievement.config.RiotApiKeyRestTemplate;
-import com.lolchievement.config.RiotApiProperties;
 import com.lolchievement.domain.controller.dtos.external.ExternalPlayerDTO;
-import lombok.AllArgsConstructor;
 import lombok.extern.log4j.Log4j2;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 @Service
 @Log4j2
-@AllArgsConstructor
 public class PlayerClientImpl implements PlayerClient {
     private final RiotApiKeyRestTemplate restTemplate;
-    private final RiotApiProperties properties;
+
+    @Value("${riot.region.europe}")
+    private String region;
+    @Value("${riot.api.base}")
+    private String apiBase;
+    @Value("${riot.api.key.riot.player.name}")
+    private String playerUri;
+
+    public PlayerClientImpl(RiotApiKeyRestTemplate restTemplate) {
+        this.restTemplate = restTemplate;
+    }
+
 
     @Override
     public ExternalPlayerDTO getExternalPlayer(String pUUID) {
         String url = String.format("https://%s.%s%s/by-puuid/{pUuid}",
-                properties.getRegion(),
-                properties.getApi().getBase(),
-                properties.getApi().getKey().getRiot().getPlayer().getName());
+                region,
+                apiBase,
+                playerUri);
 
         try {
             return restTemplate.getForObject(url, ExternalPlayerDTO.class, pUUID);
@@ -33,9 +42,9 @@ public class PlayerClientImpl implements PlayerClient {
     @Override
     public ExternalPlayerDTO getExternalPlayer(String gameName, String tagLine) {
         String url = String.format("https://%s.%s%s/by-riot-id/{gameName}/{tagLine}",
-                properties.getRegion(),
-                properties.getApi().getBase(),
-                properties.getApi().getKey().getRiot().getPlayer().getName());
+                region,
+                apiBase,
+                playerUri);
 
         try {
             return restTemplate.getForObject(url, ExternalPlayerDTO.class, gameName, tagLine);

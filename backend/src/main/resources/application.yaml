@@ -9,10 +9,15 @@ springdoc:
 riot:
   dev:
     key: RGAPI-47771bbe-0305-4f36-873f-2b15e45e3be6
-  region: europe
+  region:
+    europe: europe
+    euw: euw1
   api:
     base: api.riotgames.com/
     key:
+      lol:
+        challenges:
+          name: lol/challenges/v1/
       riot:
         player:
           name: riot/account/v1/accounts/

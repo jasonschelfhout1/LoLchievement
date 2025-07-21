@@ -6,18 +6,19 @@ import lombok.Data;
 import lombok.extern.jackson.Jacksonized;
 
 import java.util.List;
-import java.util.Map;
 
 @Data
 @Builder
 @Jacksonized
-public class ExternalAchievementDTO {
+public class ExternalPlayerClientPreferencesDTO {
     @JsonProperty
-    private List<ExternalChallengeInfoDTO> challenges;
+    private String bannerAccent;
     @JsonProperty
-    private ExternalPlayerClientPreferencesDTO preferences;
+    private String title;
     @JsonProperty
-    private ExternalChallengePointDTO totalPoints;
+    private List<String> challengeIds;
     @JsonProperty
-    private Map<String, ExternalChallengePointDTO> categoryPoints;
+    private String crestBorder;
+    @JsonProperty
+    private int prestigeCrestBorderLevel;
 }

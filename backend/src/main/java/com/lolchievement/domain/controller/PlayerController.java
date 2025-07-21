@@ -19,7 +19,7 @@ public class PlayerController implements PlayerApi {
     private final PlayerService playerService;
 
     @Override
-    @GetMapping("/api/player/{gameName}/{tagName}")
+    @GetMapping("/api/players/{gameName}/{tagName}")
     public ResponseEntity<PlayerDTO> getPlayerByGameAndTagName(
             @PathVariable String gameName,
             @PathVariable String tagName
@@ -36,7 +36,7 @@ public class PlayerController implements PlayerApi {
     }
 
     @Override
-    @GetMapping("/api/player/{id}")
+    @GetMapping("/api/players/{id}")
     public ResponseEntity<PlayerDTO> getPlayerById(@PathVariable String id) {
         log.info("Received request to get player by ID='{}'", id);
         try {
