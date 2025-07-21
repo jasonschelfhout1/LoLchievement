@@ -1,0 +1,30 @@
+openapi: 3.0.1
+info:
+  title: LoLchievement API
+  version: 1.0.0
+
+servers:
+  - url: http://localhost:8080
+
+paths:
+  /api/players/{id}:
+    get:
+      summary: Get player by PUUID
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+          description: Player uuid
+      responses:
+        '200':
+          description: Player information
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/playerDTO'
+components:
+  schemas:
+    playerDTO:
+      $ref: './components/schemas/playerDTO.yaml'

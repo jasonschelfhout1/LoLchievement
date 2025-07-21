@@ -1,0 +1,8 @@
+spring:
+  application:
+    name: LoLchiement
+springdoc:
+  api-docs:
+    enabled: false
+  swagger-ui:
+    url: /openapi.yaml

@@ -1,0 +1,12 @@
+type: object
+properties:
+  id:
+    type: string
+  username:
+    type: string
+  level:
+    type: integer
+required:
+  - id
+  - username
+  - level
