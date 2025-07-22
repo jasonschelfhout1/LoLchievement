@@ -1,7 +1,6 @@
-package com.lolchievement.domain.controller;
+package com.lolchievement.domain.player;
 
 import com.lolchievement.api.PlayerApi;
-import com.lolchievement.domain.service.PlayerService;
 import com.lolchievement.dto.PlayerDTO;
 import com.lolchievement.mapper.PlayerMapper;
 import lombok.AllArgsConstructor;

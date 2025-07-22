@@ -8,7 +8,7 @@ servers:
 
 paths:
   ### Achievement
-  /api/achievements/{pUUID}:
+  /api/achievements/player/{pUUID}/{language}:
     get:
       operationId: getPlayerAchievementByPUUID
       summary: Get all player achievements by pUUID
@@ -21,6 +21,12 @@ paths:
           schema:
             type: string
           description: Player uuid
+        - name: language
+          in: path
+          required: true
+          schema:
+            type: string
+          description: local language
       responses:
         '200':
           description: Player achievement information
@@ -29,7 +35,36 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/AchievementDTO'
+                  $ref: '#/components/schemas/PlayerAchievementDTO'
+  /api/achievements/{challengeId}/{language}:
+    get:
+      operationId: getAchievementDetailByChallengeId
+      summary: Get achievement detail by challenge id
+      tags:
+        - Achievement
+      parameters:
+        - name: challengeId
+          in: path
+          required: true
+          schema:
+            type: string
+          description: Player uuid
+        - name: language
+          in: path
+          required: true
+          schema:
+            type: string
+          description: local language
+      responses:
+        '200':
+          description: Detailed achievement information
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AchievementDTO'
+
+
+
   ### Player
   /api/players/{id}:
     get:
@@ -82,5 +117,7 @@ components:
   schemas:
     PlayerDTO:
       $ref: './components/schemas/playerDTO.yaml'
+    PlayerAchievementDTO:
+      $ref: './components/schemas/playerAchievementDTO.yaml'
     AchievementDTO:
-      $ref: './components/schemas/achievementDTO.yaml'
+      $ref: './components/schemas/AchievementDTO.yaml'

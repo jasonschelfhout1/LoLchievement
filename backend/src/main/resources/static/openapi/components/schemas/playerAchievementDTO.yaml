@@ -3,12 +3,17 @@ properties:
   challengeId:
     type: integer
     format: int64
-  name:
+  level:
     type: string
-  description:
-    type: string
-  shortDescription:
-    type: string
+  value:
+    type: number
+    format: double
+  percentile:
+    type: number
+    format: double
+  achievedTime:
+    type: integer
+    format: int64
   state:
     type: string
     enum:
