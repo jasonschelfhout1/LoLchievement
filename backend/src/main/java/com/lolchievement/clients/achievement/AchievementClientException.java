@@ -1,4 +1,4 @@
-package com.lolchievement.clients.exceptions;
+package com.lolchievement.clients.achievement;
 
 public class AchievementClientException extends RuntimeException {
     public AchievementClientException(String message, Throwable cause) {

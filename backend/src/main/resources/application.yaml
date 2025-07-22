@@ -8,7 +8,7 @@ springdoc:
     url: /openapi.yaml
 riot:
   dev:
-    key: RGAPI-47771bbe-0305-4f36-873f-2b15e45e3be6
+    key: ${RIOT_TOKEN}
   region:
     europe: europe
     euw: euw1

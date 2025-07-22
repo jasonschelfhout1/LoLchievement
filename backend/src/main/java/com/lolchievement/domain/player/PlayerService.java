@@ -1,7 +1,7 @@
-package com.lolchievement.domain.service;
+package com.lolchievement.domain.player;
 
-import com.lolchievement.clients.PlayerClient;
-import com.lolchievement.domain.model.Player;
+import com.lolchievement.clients.player.PlayerClient;
+import com.lolchievement.domain.player.model.Player;
 import com.lolchievement.mapper.PlayerMapper;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

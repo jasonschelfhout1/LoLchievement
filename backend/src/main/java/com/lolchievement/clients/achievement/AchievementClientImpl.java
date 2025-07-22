@@ -1,8 +1,6 @@
-package com.lolchievement.clients;
+package com.lolchievement.clients.achievement;
 
-import com.lolchievement.clients.exceptions.AchievementClientException;
 import com.lolchievement.config.RiotApiKeyRestTemplate;
-import com.lolchievement.domain.controller.dtos.external.ExternalAchievementDTO;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -24,17 +22,32 @@ public class AchievementClientImpl implements AchievementClient {
     }
 
     @Override
-    public ExternalAchievementDTO getExternalPlayerAchievements(String pUUID) {
+    public ExternalPlayerAchievementDTO getExternalPlayerAchievements(String pUUID) {
         String url = String.format("https://%s.%s%s/player-data/{pUuid}",
                 region,
                 apiBase,
                 challengesUri);
 
         try {
-            return restTemplate.getForObject(url, ExternalAchievementDTO.class, pUUID);
+            return restTemplate.getForObject(url, ExternalPlayerAchievementDTO.class, pUUID);
         } catch (Exception e) {
             log.error("Failed to fetch achievement by pUUID: {}", pUUID, e);
             throw new AchievementClientException("Could not retrieve achievement info", e);
+        }
+    }
+
+    @Override
+    public ExternalChallengeConfigDTO getExternalAchievementConfig(Long challengeId) {
+        String url = String.format("https://%s.%s%s/challenges/{challengeId}/config",
+                region,
+                apiBase,
+                challengesUri);
+
+        try {
+            return restTemplate.getForObject(url, ExternalChallengeConfigDTO.class, challengeId);
+        } catch (Exception e) {
+            log.error("Failed to fetch achievement details by challengeId: {}", challengeId, e);
+            throw new AchievementClientException("Could not retrieve achievement info detail", e);
         }
     }
 }

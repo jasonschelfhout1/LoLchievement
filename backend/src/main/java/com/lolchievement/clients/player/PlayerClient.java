@@ -1,6 +1,4 @@
-package com.lolchievement.clients;
-
-import com.lolchievement.domain.controller.dtos.external.ExternalPlayerDTO;
+package com.lolchievement.clients.player;
 
 public interface PlayerClient {
     ExternalPlayerDTO getExternalPlayer(String pUUID);

@@ -1,3 +1,13 @@
 ###
-GET http://localhost:8080/api/achievements/player/{{pUUID}}
+# @no-cookie-jar
+GET http://localhost:8080/api/achievements/player/{{pUUID}}/{{language}}
+Accept: application/json
+
+###
+GET http://localhost:8080/api/achievements/{{challengeId}}/{{language}}
+Accept: application/json
+
+###
+GET https://euw1.api.riotgames.com/lol/challenges/v1/challenges/{{challengeId}}/config
+X-Riot-Token: {{token}}
 Accept: application/json

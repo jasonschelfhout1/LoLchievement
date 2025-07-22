@@ -1,8 +1,6 @@
-package com.lolchievement.clients;
+package com.lolchievement.clients.player;
 
-import com.lolchievement.clients.exceptions.PlayerClientException;
 import com.lolchievement.config.RiotApiKeyRestTemplate;
-import com.lolchievement.domain.controller.dtos.external.ExternalPlayerDTO;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;

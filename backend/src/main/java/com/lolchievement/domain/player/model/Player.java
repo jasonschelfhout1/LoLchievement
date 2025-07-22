@@ -1,4 +1,4 @@
-package com.lolchievement.domain.model;
+package com.lolchievement.domain.player.model;
 
 import lombok.Builder;
 import lombok.Data;

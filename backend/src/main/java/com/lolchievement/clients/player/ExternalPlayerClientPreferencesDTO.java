@@ -1,4 +1,4 @@
-package com.lolchievement.domain.controller.dtos.external;
+package com.lolchievement.clients.player;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Builder;

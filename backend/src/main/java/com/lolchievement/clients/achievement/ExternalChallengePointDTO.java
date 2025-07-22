@@ -1,5 +1,4 @@
-package com.lolchievement.domain.controller.dtos.external;
-
+package com.lolchievement.clients.achievement;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Builder;
@@ -9,11 +8,13 @@ import lombok.extern.jackson.Jacksonized;
 @Data
 @Builder
 @Jacksonized
-public class ExternalPlayerDTO {
+public class ExternalChallengePointDTO {
     @JsonProperty
-    private String puuid;
+    private String level;
     @JsonProperty
-    private String gameName;
+    private long current;
     @JsonProperty
-    private String tagLine;
+    private long max;
+    @JsonProperty
+    private long precentile;
 }
