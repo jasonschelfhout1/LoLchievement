@@ -53,7 +53,6 @@ public class AchievementMapper {
 
     public static PlayerAchievementDTO toDTO(PlayerAchievement playerAchievement, Achievement achievement) {
         var state = PlayerAchievementDTO.StateEnum.fromValue(achievement.getState().name());
-        var tracking = PlayerAchievementDTO.TrackingEnum.fromValue(achievement.getTracking().name());
         List<AchievementThresholdDTO> thresholdDTOS = achievement.getThresholds().stream()
                 .map(AchievementMapper::toDTO)
                 .toList();
@@ -64,7 +63,6 @@ public class AchievementMapper {
                 .percentile(playerAchievement.getPercentile())
                 .achievedTime(playerAchievement.getAchievedTime())
                 .state(state)
-                .tracking(tracking)
                 .achievementThreshHolds(thresholdDTOS)
                 .build();
     }

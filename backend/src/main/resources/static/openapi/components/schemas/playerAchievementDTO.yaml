@@ -21,11 +21,6 @@ properties:
       - HIDDEN
       - ENABLED
       - ARCHIVED
-  tracking:
-    type: string
-    enum:
-      - LIFETIME
-      - SEASON
   achievementThreshHolds:
     type: array
     items:

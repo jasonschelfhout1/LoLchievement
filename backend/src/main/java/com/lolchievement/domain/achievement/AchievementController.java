@@ -54,10 +54,11 @@ public class AchievementController implements AchievementApi {
         log.info("Received request to get achievements for player with pUUID='{}' language='{}'", pUUID, language);
         try {
             List<PlayerAchievement> playerAchievements = achievementService.getPlayerAchievements(pUUID);
-            List<Achievement> achievements = playerAchievements.stream()
+            List<Long> challengeIds = playerAchievements.stream()
                     .map(PlayerAchievement::getChallengeId)
-                    .map(achievementService::getAchievementDetail)
                     .toList();
+
+            List<Achievement> achievements = achievementService.getAchievementsForIds(challengeIds);
 
             log.info("Successfully retrieved {} achievements for player with pUUID='{}'", achievements.size(), pUUID);
             return ResponseEntity.ok(AchievementMapper.toDTOList(playerAchievements, achievements));
@@ -75,4 +76,5 @@ public class AchievementController implements AchievementApi {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
     }
+
 }

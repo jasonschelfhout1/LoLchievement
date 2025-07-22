@@ -5,6 +5,10 @@ import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
+
 @Service
 @Log4j2
 public class AchievementClientImpl implements AchievementClient {
@@ -48,6 +52,22 @@ public class AchievementClientImpl implements AchievementClient {
         } catch (Exception e) {
             log.error("Failed to fetch achievement details by challengeId: {}", challengeId, e);
             throw new AchievementClientException("Could not retrieve achievement info detail", e);
+        }
+    }
+
+    @Override
+    public List<ExternalChallengeConfigDTO> getExternalAchievementConfigs() {
+        String url = String.format("https://%s.%s%s/challenges/config",
+                region,
+                apiBase,
+                challengesUri);
+
+        try {
+            ExternalChallengeConfigDTO[] configs = restTemplate.getForObject(url, ExternalChallengeConfigDTO[].class);
+            return configs != null ? Arrays.asList(configs) : Collections.emptyList();
+        } catch (Exception e) {
+            log.error("Failed to fetch all achievements", e);
+            throw new AchievementClientException("Could not retrieve all achievements", e);
         }
     }
 }
