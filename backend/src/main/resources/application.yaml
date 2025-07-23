@@ -6,6 +6,9 @@ springdoc:
     enabled: false
   swagger-ui:
     url: /openapi.yaml
+app:
+  frontend-url: http://localhost:3000
+  api-url: http://localhost:8080
 riot:
   dev:
     key: ${RIOT_TOKEN}

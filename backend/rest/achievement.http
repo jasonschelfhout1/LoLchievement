@@ -8,6 +8,6 @@ GET http://localhost:8080/api/achievements/{{challengeId}}/{{language}}
 Accept: application/json
 
 ###
-GET https://euw1.api.riotgames.com/lol/challenges/v1/challenges/{{challengeId}}/config
+GET https://ddragon.leagueoflegends.com/api/versions.json
 X-Riot-Token: {{token}}
 Accept: application/json

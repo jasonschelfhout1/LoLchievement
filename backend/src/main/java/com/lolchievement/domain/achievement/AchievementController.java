@@ -14,6 +14,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.client.HttpClientErrorException.TooManyRequests;
 
 import java.util.List;
 
@@ -35,7 +36,7 @@ public class AchievementController implements AchievementApi {
             return ResponseEntity.ok(dto);
         } catch (AchievementClientException e) {
             Throwable cause = e.getCause();
-            if (cause instanceof org.springframework.web.client.HttpClientErrorException.TooManyRequests) {
+            if (cause instanceof TooManyRequests) {
                 log.warn("Rate limit exceeded while retrieving achievement detail for challengeId='{}'", challengeId);
                 return ResponseEntity.status(HttpStatus.TOO_MANY_REQUESTS).build();
             } else {
@@ -64,7 +65,7 @@ public class AchievementController implements AchievementApi {
             return ResponseEntity.ok(AchievementMapper.toDTOList(playerAchievements, achievements));
         } catch (AchievementClientException e) {
             Throwable cause = e.getCause();
-            if (cause instanceof org.springframework.web.client.HttpClientErrorException.TooManyRequests) {
+            if (cause instanceof TooManyRequests) {
                 log.warn("Rate limit exceeded while retrieving achievements for player pUUID='{}'", pUUID);
                 return ResponseEntity.status(HttpStatus.TOO_MANY_REQUESTS).build();
             } else {
