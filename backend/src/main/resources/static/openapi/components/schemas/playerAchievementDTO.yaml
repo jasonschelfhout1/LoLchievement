@@ -4,7 +4,7 @@ properties:
     type: integer
     format: int64
   level:
-    type: string
+    $ref: './tier.yaml'
   value:
     type: number
     format: double
@@ -15,12 +15,7 @@ properties:
     type: integer
     format: int64
   state:
-    type: string
-    enum:
-      - DISABLED
-      - HIDDEN
-      - ENABLED
-      - ARCHIVED
+    $ref: './state.yaml'
   achievementThreshHolds:
     type: array
     items:

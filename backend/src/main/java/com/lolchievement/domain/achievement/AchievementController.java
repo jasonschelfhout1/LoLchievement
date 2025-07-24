@@ -1,18 +1,23 @@
 package com.lolchievement.domain.achievement;
 
 import com.lolchievement.api.AchievementApi;
-import com.lolchievement.clients.achievement.AchievementClientException;
+import com.lolchievement.clients.riot.achievement.AchievementClientException;
 import com.lolchievement.domain.achievement.model.Achievement;
 import com.lolchievement.domain.achievement.model.PlayerAchievement;
 import com.lolchievement.dto.AchievementDTO;
 import com.lolchievement.dto.PlayerAchievementDTO;
+import com.lolchievement.dto.Tier;
 import com.lolchievement.mapper.AchievementMapper;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.core.io.ByteArrayResource;
+import org.springframework.core.io.Resource;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.HttpClientErrorException.TooManyRequests;
 
@@ -47,6 +52,22 @@ public class AchievementController implements AchievementApi {
             log.error("Unexpected error while retrieving achievement detail for challengeId='{}' language='{}'", challengeId, language, e);
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
+    }
+
+    @Override
+    @GetMapping(value = "/api/achievements/token/{challengeId}", produces = MediaType.IMAGE_PNG_VALUE)
+    public ResponseEntity<Resource> getChallengeToken(
+            @PathVariable Long challengeId,
+            @RequestParam(required = false) Tier tier) {
+        Tier pTier = Tier.CHALLENGER;
+        if (tier != null) {
+            pTier = tier;
+        }
+        byte[] imageBytes = achievementService.getChallengeTokenByIdAndTier(challengeId, pTier);
+        ByteArrayResource resource = new ByteArrayResource(imageBytes);
+        return ResponseEntity.ok()
+                .contentType(MediaType.IMAGE_PNG)
+                .body(resource);
     }
 
     @Override

@@ -10,12 +10,7 @@ properties:
   shortDescription:
     type: string
   state:
-    type: string
-    enum:
-      - DISABLED
-      - HIDDEN
-      - ENABLED
-      - ARCHIVED
+    $ref: './state.yaml'
   achievementThreshHolds:
     type: array
     items:

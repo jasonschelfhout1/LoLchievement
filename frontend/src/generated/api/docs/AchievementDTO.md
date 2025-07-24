@@ -9,7 +9,7 @@ Name | Type | Description | Notes
 **name** | **string** |  | [optional] [default to undefined]
 **description** | **string** |  | [optional] [default to undefined]
 **shortDescription** | **string** |  | [optional] [default to undefined]
-**state** | **string** |  | [optional] [default to undefined]
+**state** | [**State**](State.md) |  | [optional] [default to undefined]
 **achievementThreshHolds** | [**Array&lt;AchievementThresholdDTO&gt;**](AchievementThresholdDTO.md) |  | [optional] [default to undefined]
 
 ## Example

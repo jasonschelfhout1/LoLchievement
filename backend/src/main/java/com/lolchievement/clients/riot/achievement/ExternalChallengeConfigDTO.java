@@ -1,8 +1,8 @@
-package com.lolchievement.clients.achievement;
+package com.lolchievement.clients.riot.achievement;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.lolchievement.domain.achievement.model.AchievementState;
 import com.lolchievement.domain.achievement.model.AchievementTracking;
+import com.lolchievement.dto.State;
 import lombok.Builder;
 import lombok.Data;
 import lombok.extern.jackson.Jacksonized;
@@ -21,7 +21,7 @@ public class ExternalChallengeConfigDTO {
     private Map<String, Map<String, String>> localizedNames;
 
     @JsonProperty("state")
-    private AchievementState state;
+    private State state;
 
     @JsonProperty("tracking")
     private AchievementTracking tracking;

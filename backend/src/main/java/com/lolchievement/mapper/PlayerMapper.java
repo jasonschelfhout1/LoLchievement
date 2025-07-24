@@ -1,6 +1,6 @@
 package com.lolchievement.mapper;
 
-import com.lolchievement.clients.player.ExternalPlayerDTO;
+import com.lolchievement.clients.riot.player.ExternalPlayerDTO;
 import com.lolchievement.domain.player.model.Player;
 import com.lolchievement.dto.PlayerDTO;
 import lombok.experimental.UtilityClass;

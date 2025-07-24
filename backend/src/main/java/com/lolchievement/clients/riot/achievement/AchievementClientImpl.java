@@ -1,4 +1,4 @@
-package com.lolchievement.clients.achievement;
+package com.lolchievement.clients.riot.achievement;
 
 import com.lolchievement.config.RiotApiKeyRestTemplate;
 import lombok.extern.log4j.Log4j2;

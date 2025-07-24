@@ -1,46 +1,42 @@
 'use client';
 
-import { useEffect, useState } from 'react';
-import { useRouter, useParams } from 'next/navigation';
-import { useAchievementApi } from '@/app/hooks/useAchievementApi';
-import { AchievementDTO } from '@/src/generated/api';
+import {useAchievementApi} from '@/app/hooks/useAchievementApi';
+import {useAsyncCall} from '@/app/hooks/useAsyncCallHook';
+import {AchievementDTO} from '@/src/generated/api';
+import {useEffect, useState} from "react";
+import {useParams} from "next/navigation";
 
-export default function AchievementPage() {
-    const router = useRouter();
+export default function AchievementDetails() {
     const params = useParams();
-    const [achievement, setAchievement] = useState<AchievementDTO | null>(null);
-    const [error, setError] = useState<string | null>(null);
     const achievementApi = useAchievementApi();
-
     const id = params.id as string;
+    const {data: achievement, error, isLoading, execute} = useAsyncCall<AchievementDTO>();
 
     useEffect(() => {
-        const fetchAchievement = async () => {
-            try {
-                const { data } = await achievementApi.getAchievementDetailByChallengeId(id, 'en_US');
-                console.log(data);
-                setAchievement(data);
-            } catch (err) {
-                setError('Failed to load achievement');
-                console.error(err);
-            }
-        };
-
-        if (id) {
-            fetchAchievement();
-        }
+        execute(achievementApi.getAchievementDetailByChallengeId(id, 'en_US'));
     }, [id]);
 
-    if (error) return <div>Error: {error}</div>;
-    if (!achievement) return <div>Loading...</div>;
+    if (isLoading) return <div>Loading...</div>;
+    if (error) return <div>Error: {error.message}</div>;
+    if (!achievement) return null;
 
     return (
         <div>
-            <button onClick={() => router.back()} className="mb-4">
-                ← Back
-            </button>
             <h1>{achievement.name}</h1>
+            <img
+                src={"http://localhost:8080/api/achievements/token/" + id}
+                alt={`${achievement.name} token`}
+                className="w-24 h-24 object-contain"
+            />
             <p>{achievement.description}</p>
+            <p>{achievement.shortDescription}</p>
+            <p>{achievement.state}</p>
+            {achievement.achievementThreshHolds?.map((threshold) => (
+                <div key={`threshold-${threshold.value}`} className="mb-2">
+                    {threshold.title && <p className="text-sm">{threshold.title}</p>}
+                    <p>Value: {threshold.value}</p>
+                </div>
+            ))}
         </div>
     );
 }

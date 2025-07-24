@@ -1,7 +1,7 @@
-package com.lolchievement.clients.achievement;
+package com.lolchievement.clients.riot.achievement;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.lolchievement.clients.player.ExternalPlayerClientPreferencesDTO;
+import com.lolchievement.clients.riot.player.ExternalPlayerClientPreferencesDTO;
 import lombok.Builder;
 import lombok.Data;
 import lombok.extern.jackson.Jacksonized;

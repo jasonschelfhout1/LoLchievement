@@ -1,0 +1,6 @@
+type: string
+enum:
+  - DISABLED
+  - HIDDEN
+  - ENABLED
+  - ARCHIVED

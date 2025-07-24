@@ -47,3 +47,5 @@ next-env.d.ts
 /backend/.idea
 /backend/rest/http-client.private.env.json
 /.idea/
+/frontend/src/generated/api/docs/State.md
+/frontend/src/generated/api/docs/Tier.md

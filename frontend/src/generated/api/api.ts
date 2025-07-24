@@ -55,10 +55,10 @@ export interface AchievementDTO {
     'shortDescription'?: string;
     /**
      * 
-     * @type {string}
+     * @type {State}
      * @memberof AchievementDTO
      */
-    'state'?: AchievementDTOStateEnum;
+    'state'?: State;
     /**
      * 
      * @type {Array<AchievementThresholdDTO>}
@@ -67,14 +67,6 @@ export interface AchievementDTO {
     'achievementThreshHolds'?: Array<AchievementThresholdDTO>;
 }
 
-export const AchievementDTOStateEnum = {
-    Disabled: 'DISABLED',
-    Hidden: 'HIDDEN',
-    Enabled: 'ENABLED',
-    Archived: 'ARCHIVED'
-} as const;
-
-export type AchievementDTOStateEnum = typeof AchievementDTOStateEnum[keyof typeof AchievementDTOStateEnum];
 
 /**
  * 
@@ -109,10 +101,10 @@ export interface PlayerAchievementDTO {
     'challengeId': number;
     /**
      * 
-     * @type {string}
+     * @type {Tier}
      * @memberof PlayerAchievementDTO
      */
-    'level': string;
+    'level': Tier;
     /**
      * 
      * @type {number}
@@ -133,10 +125,10 @@ export interface PlayerAchievementDTO {
     'achievedTime'?: number;
     /**
      * 
-     * @type {string}
+     * @type {State}
      * @memberof PlayerAchievementDTO
      */
-    'state'?: PlayerAchievementDTOStateEnum;
+    'state'?: State;
     /**
      * 
      * @type {Array<AchievementThresholdDTO>}
@@ -145,14 +137,6 @@ export interface PlayerAchievementDTO {
     'achievementThreshHolds'?: Array<AchievementThresholdDTO>;
 }
 
-export const PlayerAchievementDTOStateEnum = {
-    Disabled: 'DISABLED',
-    Hidden: 'HIDDEN',
-    Enabled: 'ENABLED',
-    Archived: 'ARCHIVED'
-} as const;
-
-export type PlayerAchievementDTOStateEnum = typeof PlayerAchievementDTOStateEnum[keyof typeof PlayerAchievementDTOStateEnum];
 
 /**
  * 
@@ -179,6 +163,44 @@ export interface PlayerDTO {
      */
     'tagName': string;
 }
+/**
+ * 
+ * @export
+ * @enum {string}
+ */
+
+export const State = {
+    Disabled: 'DISABLED',
+    Hidden: 'HIDDEN',
+    Enabled: 'ENABLED',
+    Archived: 'ARCHIVED'
+} as const;
+
+export type State = typeof State[keyof typeof State];
+
+
+/**
+ * 
+ * @export
+ * @enum {string}
+ */
+
+export const Tier = {
+    Iron: 'IRON',
+    Bronze: 'BRONZE',
+    Silver: 'SILVER',
+    Gold: 'GOLD',
+    Platinum: 'PLATINUM',
+    Emerald: 'EMERALD',
+    Diamond: 'DIAMOND',
+    Master: 'MASTER',
+    Grandmaster: 'GRANDMASTER',
+    Challenger: 'CHALLENGER'
+} as const;
+
+export type Tier = typeof Tier[keyof typeof Tier];
+
+
 
 /**
  * AchievementApi - axios parameter creator
@@ -212,6 +234,45 @@ export const AchievementApiAxiosParamCreator = function (configuration?: Configu
             const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @summary Get challenge token image by challenge id and tier
+         * @param {number} challengeId Challenge ID
+         * @param {Tier} [tier] Optional tier
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        getChallengeToken: async (challengeId: number, tier?: Tier, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'challengeId' is not null or undefined
+            assertParamExists('getChallengeToken', 'challengeId', challengeId)
+            const localVarPath = `/api/achievements/token/{challengeId}`
+                .replace(`{${"challengeId"}}`, encodeURIComponent(String(challengeId)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            if (tier !== undefined) {
+                localVarQueryParameter['tier'] = tier;
+            }
 
 
     
@@ -288,6 +349,20 @@ export const AchievementApiFp = function(configuration?: Configuration) {
         },
         /**
          * 
+         * @summary Get challenge token image by challenge id and tier
+         * @param {number} challengeId Challenge ID
+         * @param {Tier} [tier] Optional tier
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async getChallengeToken(challengeId: number, tier?: Tier, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<File>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.getChallengeToken(challengeId, tier, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['AchievementApi.getChallengeToken']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+        /**
+         * 
          * @summary Get all player achievements by pUUID
          * @param {string} pUUID Player uuid
          * @param {string} language local language
@@ -323,6 +398,17 @@ export const AchievementApiFactory = function (configuration?: Configuration, ba
         },
         /**
          * 
+         * @summary Get challenge token image by challenge id and tier
+         * @param {number} challengeId Challenge ID
+         * @param {Tier} [tier] Optional tier
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        getChallengeToken(challengeId: number, tier?: Tier, options?: RawAxiosRequestConfig): AxiosPromise<File> {
+            return localVarFp.getChallengeToken(challengeId, tier, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
          * @summary Get all player achievements by pUUID
          * @param {string} pUUID Player uuid
          * @param {string} language local language
@@ -353,6 +439,19 @@ export class AchievementApi extends BaseAPI {
      */
     public getAchievementDetailByChallengeId(challengeId: string, language: string, options?: RawAxiosRequestConfig) {
         return AchievementApiFp(this.configuration).getAchievementDetailByChallengeId(challengeId, language, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @summary Get challenge token image by challenge id and tier
+     * @param {number} challengeId Challenge ID
+     * @param {Tier} [tier] Optional tier
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof AchievementApi
+     */
+    public getChallengeToken(challengeId: number, tier?: Tier, options?: RawAxiosRequestConfig) {
+        return AchievementApiFp(this.configuration).getChallengeToken(challengeId, tier, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**

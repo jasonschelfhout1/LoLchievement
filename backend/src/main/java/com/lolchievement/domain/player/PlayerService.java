@@ -1,6 +1,6 @@
 package com.lolchievement.domain.player;
 
-import com.lolchievement.clients.player.PlayerClient;
+import com.lolchievement.clients.riot.player.PlayerClient;
 import com.lolchievement.domain.player.model.Player;
 import com.lolchievement.mapper.PlayerMapper;
 import lombok.AllArgsConstructor;

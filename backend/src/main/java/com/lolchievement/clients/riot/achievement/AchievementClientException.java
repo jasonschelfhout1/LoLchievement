@@ -1,4 +1,4 @@
-package com.lolchievement.clients.achievement;
+package com.lolchievement.clients.riot.achievement;
 
 public class AchievementClientException extends RuntimeException {
     public AchievementClientException(String message, Throwable cause) {

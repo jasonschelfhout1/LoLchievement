@@ -1,4 +1,4 @@
-package com.lolchievement.clients.player;
+package com.lolchievement.clients.riot.player;
 
 public interface PlayerClient {
     ExternalPlayerDTO getExternalPlayer(String pUUID);

@@ -15,7 +15,8 @@ public class CacheConfig {
         SimpleCacheManager cacheManager = new SimpleCacheManager();
         cacheManager.setCaches(Arrays.asList(
                 new ConcurrentMapCache("achievementCache"),
-                new ConcurrentMapCache("playerAchievementCache")
+                new ConcurrentMapCache("playerAchievementCache"),
+                new ConcurrentMapCache("tokenChallengeCache")
         ));
         return cacheManager;
     }

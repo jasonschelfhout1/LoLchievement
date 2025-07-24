@@ -1,4 +1,4 @@
-package com.lolchievement.clients.player;
+package com.lolchievement.clients.riot.player;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Builder;

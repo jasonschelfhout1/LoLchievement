@@ -1,4 +1,4 @@
-package com.lolchievement.clients.achievement;
+package com.lolchievement.clients.riot.achievement;
 
 import java.util.List;
 

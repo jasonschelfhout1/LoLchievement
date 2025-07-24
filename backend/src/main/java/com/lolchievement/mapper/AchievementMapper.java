@@ -1,20 +1,16 @@
 package com.lolchievement.mapper;
 
-import com.lolchievement.clients.achievement.ExternalChallengeConfigDTO;
-import com.lolchievement.clients.achievement.ExternalPlayerAchievementDTO;
+import com.lolchievement.clients.riot.achievement.ExternalChallengeConfigDTO;
+import com.lolchievement.clients.riot.achievement.ExternalPlayerAchievementDTO;
 import com.lolchievement.domain.achievement.model.Achievement;
 import com.lolchievement.domain.achievement.model.AchievementThreshold;
 import com.lolchievement.domain.achievement.model.PlayerAchievement;
 import com.lolchievement.domain.common.model.Language;
 import com.lolchievement.domain.exception.LanguageException;
-import com.lolchievement.dto.AchievementDTO;
-import com.lolchievement.dto.AchievementThresholdDTO;
-import com.lolchievement.dto.PlayerAchievementDTO;
+import com.lolchievement.dto.*;
 import lombok.experimental.UtilityClass;
 
-import java.util.Collections;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @UtilityClass
 public class AchievementMapper {
@@ -39,7 +35,7 @@ public class AchievementMapper {
                     if (matchingAchievement == null) {
                         return PlayerAchievementDTO.builder()
                                 .challengeId(playerAchievement.getChallengeId())
-                                .level(playerAchievement.getLevel())
+                                .level(Tier.valueOf(playerAchievement.getLevel()))
                                 .value(playerAchievement.getValue())
                                 .percentile(playerAchievement.getPercentile())
                                 .achievedTime(playerAchievement.getAchievedTime())
@@ -52,17 +48,16 @@ public class AchievementMapper {
     }
 
     public static PlayerAchievementDTO toDTO(PlayerAchievement playerAchievement, Achievement achievement) {
-        var state = PlayerAchievementDTO.StateEnum.fromValue(achievement.getState().name());
         List<AchievementThresholdDTO> thresholdDTOS = achievement.getThresholds().stream()
                 .map(AchievementMapper::toDTO)
                 .toList();
         return PlayerAchievementDTO.builder()
                 .challengeId(playerAchievement.getChallengeId())
-                .level(playerAchievement.getLevel())
+                .level(Tier.fromValue(playerAchievement.getLevel()))
                 .value(playerAchievement.getValue())
                 .percentile(playerAchievement.getPercentile())
                 .achievedTime(playerAchievement.getAchievedTime())
-                .state(state)
+                .state(achievement.getState())
                 .achievementThreshHolds(thresholdDTOS)
                 .build();
     }
@@ -113,7 +108,7 @@ public class AchievementMapper {
                 .name(currentLanguage.getName())
                 .description(currentLanguage.getDescription())
                 .shortDescription(currentLanguage.getShortDescription())
-                .state(AchievementDTO.StateEnum.fromValue(achievement.getState().name()))
+                .state(achievement.getState())
                 .achievementThreshHolds(achievementThresholds)
                 .build();
     }
@@ -164,5 +159,4 @@ public class AchievementMapper {
                 .findFirst()
                 .orElseThrow(() -> new LanguageException(String.format("Unable to parse %s", languageFormat)));
     }
-
 }

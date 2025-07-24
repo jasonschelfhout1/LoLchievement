@@ -10,5 +10,7 @@ docs/AchievementThresholdDTO.md
 docs/PlayerAchievementDTO.md
 docs/PlayerApi.md
 docs/PlayerDTO.md
+docs/State.md
+docs/Tier.md
 git_push.sh
 index.ts

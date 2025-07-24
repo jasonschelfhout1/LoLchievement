@@ -62,8 +62,34 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/AchievementDTO'
-
-
+  /api/achievements/token/{challengeId}:
+    get:
+      operationId: getChallengeToken
+      summary: Get challenge token image by challenge id and tier
+      tags:
+        - Achievement
+      parameters:
+        - name: challengeId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+          description: Challenge ID
+        - name: tier
+          in: query
+          required: false
+          schema:
+            $ref: '#/components/schemas/Tier'
+          description: Optional tier
+      responses:
+        '200':
+          description: Challenge token image
+          content:
+            image/png:
+              schema:
+                type: string
+                format: binary
 
   ### Player
   /api/players/{id}:
@@ -121,3 +147,5 @@ components:
       $ref: './components/schemas/playerAchievementDTO.yaml'
     AchievementDTO:
       $ref: './components/schemas/AchievementDTO.yaml'
+    Tier:
+      $ref: './components/schemas/tier.yaml'
