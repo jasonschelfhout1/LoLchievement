@@ -1,4 +1,3 @@
-
 package com.lolchievement.domain.challenge;
 
 import com.lolchievement.domain.challenge.model.Challenge;
