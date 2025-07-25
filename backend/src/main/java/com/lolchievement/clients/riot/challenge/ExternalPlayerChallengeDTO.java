@@ -1,4 +1,4 @@
-package com.lolchievement.clients.riot.achievement;
+package com.lolchievement.clients.riot.challenge;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.lolchievement.clients.riot.player.ExternalPlayerClientPreferencesDTO;
@@ -12,7 +12,7 @@ import java.util.Map;
 @Data
 @Builder
 @Jacksonized
-public class ExternalPlayerAchievementDTO {
+public class ExternalPlayerChallengeDTO {
     @JsonProperty
     private List<ExternalChallengeInfoDTO> challenges;
     @JsonProperty

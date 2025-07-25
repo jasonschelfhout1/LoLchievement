@@ -7,7 +7,7 @@ export default function Home() {
   const router = useRouter();
 
   const handleClick = () => {
-    router.push(`/achievements/402406`);
+    router.push(`/challenges/402406`);
   };
 
 

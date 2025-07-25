@@ -1,10 +1,10 @@
 package com.lolchievement.mapper;
 
-import com.lolchievement.clients.riot.achievement.ExternalChallengeConfigDTO;
-import com.lolchievement.clients.riot.achievement.ExternalPlayerAchievementDTO;
-import com.lolchievement.domain.achievement.model.Achievement;
-import com.lolchievement.domain.achievement.model.AchievementThreshold;
-import com.lolchievement.domain.achievement.model.PlayerAchievement;
+import com.lolchievement.clients.riot.challenge.ExternalChallengeConfigDTO;
+import com.lolchievement.clients.riot.challenge.ExternalPlayerChallengeDTO;
+import com.lolchievement.domain.challenge.model.Challenge;
+import com.lolchievement.domain.challenge.model.ChallengeThreshold;
+import com.lolchievement.domain.challenge.model.PlayerChallenge;
 import com.lolchievement.domain.common.model.Language;
 import com.lolchievement.domain.exception.LanguageException;
 import com.lolchievement.dto.*;
@@ -13,62 +13,62 @@ import lombok.experimental.UtilityClass;
 import java.util.*;
 
 @UtilityClass
-public class AchievementMapper {
+public class ChallengeMapper {
     private static final String LANGUAGE_NAME = "name";
     private static final String LANGUAGE_DESCRIPTION = "description";
     private static final String LANGUAGE_SHORT_DESCRIPTION = "shortDescription";
 
-    public static List<PlayerAchievementDTO> toDTOList(List<PlayerAchievement> playerAchievements, List<Achievement> achievements) {
-        if (playerAchievements == null || achievements == null) {
+    public static List<PlayerChallengeDTO> toDTOList(List<PlayerChallenge> playerChallenges, List<Challenge> challenges) {
+        if (playerChallenges == null || challenges == null) {
             return Collections.emptyList();
         }
 
-        return playerAchievements.stream()
-                .map(playerAchievement -> {
-                    // Match the corresponding Achievement by challengeId
-                    Achievement matchingAchievement = achievements.stream()
-                            .filter(achievement -> achievement.getId().equals(playerAchievement.getChallengeId()))
+        return playerChallenges.stream()
+                .map(playerChallenge -> {
+                    // Match the corresponding Challenge by challengeId
+                    Challenge matchingChallenge = challenges.stream()
+                            .filter(challenge -> challenge.getId().equals(playerChallenge.getChallengeId()))
                             .findFirst()
                             .orElse(null);
 
-                    // If no matching Achievement is found, return a basic DTO without meta-info
-                    if (matchingAchievement == null) {
-                        return PlayerAchievementDTO.builder()
-                                .challengeId(playerAchievement.getChallengeId())
-                                .level(Tier.valueOf(playerAchievement.getLevel()))
-                                .value(playerAchievement.getValue())
-                                .percentile(playerAchievement.getPercentile())
-                                .achievedTime(playerAchievement.getAchievedTime())
+                    // If no matching Challenge is found, return a basic DTO without meta-info
+                    if (matchingChallenge == null) {
+                        return PlayerChallengeDTO.builder()
+                                .challengeId(playerChallenge.getChallengeId())
+                                .level(Tier.valueOf(playerChallenge.getLevel()))
+                                .value(playerChallenge.getValue())
+                                .percentile(playerChallenge.getPercentile())
+                                .achievedTime(playerChallenge.getAchievedTime())
                                 .build();
                     }
 
-                    return toDTO(playerAchievement, matchingAchievement);
+                    return toDTO(playerChallenge, matchingChallenge);
                 })
                 .toList();
     }
 
-    public static PlayerAchievementDTO toDTO(PlayerAchievement playerAchievement, Achievement achievement) {
-        List<AchievementThresholdDTO> thresholdDTOS = achievement.getThresholds().stream()
-                .map(AchievementMapper::toDTO)
+    public static PlayerChallengeDTO toDTO(PlayerChallenge playerChallenge, Challenge challenge) {
+        List<ChallengeThresholdDTO> thresholdDTOS = challenge.getThresholds().stream()
+                .map(ChallengeMapper::toDTO)
                 .toList();
-        return PlayerAchievementDTO.builder()
-                .challengeId(playerAchievement.getChallengeId())
-                .level(Tier.fromValue(playerAchievement.getLevel()))
-                .value(playerAchievement.getValue())
-                .percentile(playerAchievement.getPercentile())
-                .achievedTime(playerAchievement.getAchievedTime())
-                .state(achievement.getState())
-                .achievementThreshHolds(thresholdDTOS)
+        return PlayerChallengeDTO.builder()
+                .challengeId(playerChallenge.getChallengeId())
+                .level(Tier.fromValue(playerChallenge.getLevel()))
+                .value(playerChallenge.getValue())
+                .percentile(playerChallenge.getPercentile())
+                .achievedTime(playerChallenge.getAchievedTime())
+                .state(challenge.getState())
+                .challengeThreshHolds(thresholdDTOS)
                 .build();
     }
 
-    public static List<PlayerAchievement> fromExternalAchievementPlayerDTO(ExternalPlayerAchievementDTO external) {
+    public static List<PlayerChallenge> fromExternalChallengePlayerDTO(ExternalPlayerChallengeDTO external) {
         if (external == null || external.getChallenges() == null) {
             return Collections.emptyList();
         }
 
         return external.getChallenges().stream()
-                .map(challenge -> PlayerAchievement.builder()
+                .map(challenge -> PlayerChallenge.builder()
                         .challengeId(challenge.getChallengeId())
                         .level(challenge.getLevel())
                         .value(challenge.getValue())
@@ -78,11 +78,11 @@ public class AchievementMapper {
                 .toList();
     }
 
-    public static Achievement fromExternalAchievementDTO(ExternalChallengeConfigDTO external) {
-        List<AchievementThreshold> thresholds = convertToThresholds(external.getThresholds());
+    public static Challenge fromExternalChallengeDTO(ExternalChallengeConfigDTO external) {
+        List<ChallengeThreshold> thresholds = convertToThresholds(external.getThresholds());
         List<Language> languages = convertToLanguages(external.getLocalizedNames());
 
-        return Achievement.builder()
+        return Challenge.builder()
                 .id(external.getId())
                 .languages(languages)
                 .state(external.getState())
@@ -92,33 +92,33 @@ public class AchievementMapper {
                 .build();
     }
 
-    public static AchievementDTO toDTO(Achievement achievement, String languageFormat) {
-        Language currentLanguage = getLanguage(achievement.getLanguages(), languageFormat);
+    public static ChallengeDTO toDTO(Challenge challenge, String languageFormat) {
+        Language currentLanguage = getLanguage(challenge.getLanguages(), languageFormat);
 
         if (currentLanguage == null) {
             throw new LanguageException("Unknown language: " + languageFormat);
         }
 
-        List<AchievementThresholdDTO> achievementThresholds = achievement.getThresholds().stream()
-                .map(AchievementMapper::toDTO)
+        List<ChallengeThresholdDTO> challengeThresholds = challenge.getThresholds().stream()
+                .map(ChallengeMapper::toDTO)
                 .toList();
 
-        return AchievementDTO.builder()
-                .challengeId(achievement.getId())
+        return ChallengeDTO.builder()
+                .challengeId(challenge.getId())
                 .name(currentLanguage.getName())
                 .description(currentLanguage.getDescription())
                 .shortDescription(currentLanguage.getShortDescription())
-                .state(achievement.getState())
-                .achievementThreshHolds(achievementThresholds)
+                .state(challenge.getState())
+                .challengeThreshHolds(challengeThresholds)
                 .build();
     }
 
-    private static List<AchievementThreshold> convertToThresholds(Map<String, Double> thresholds) {
+    private static List<ChallengeThreshold> convertToThresholds(Map<String, Double> thresholds) {
         if (thresholds == null) return Collections.emptyList();
 
         return thresholds.entrySet().stream()
                 .map(t ->
-                        AchievementThreshold.builder()
+                        ChallengeThreshold.builder()
                                 .title(t.getKey())
                                 .value(t.getValue())
                                 .build()
@@ -144,10 +144,10 @@ public class AchievementMapper {
                 .toList();
     }
 
-    private static AchievementThresholdDTO toDTO(AchievementThreshold achievementThreshold) {
-        return AchievementThresholdDTO.builder()
-                .title(achievementThreshold.getTitle())
-                .value(achievementThreshold.getValue())
+    private static ChallengeThresholdDTO toDTO(ChallengeThreshold challengeThreshold) {
+        return ChallengeThresholdDTO.builder()
+                .title(challengeThreshold.getTitle())
+                .value(challengeThreshold.getValue())
                 .build();
     }
 

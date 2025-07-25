@@ -1,4 +1,4 @@
-import {AchievementApi, Configuration} from '@/src/generated/api';
+import {ChallengeApi, Configuration} from '@/src/generated/api';
 
 const configuration = new Configuration({
     basePath: process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8080',
@@ -9,6 +9,6 @@ const configuration = new Configuration({
     }
 });
 
-export const useAchievementApi = () => {
-    return new AchievementApi(configuration);
+export const useChallengeApi = () => {
+    return new ChallengeApi(configuration);
 };

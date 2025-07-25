@@ -1,6 +1,6 @@
 generateClientAsClass: true
 supportsES6: true
-npmName: achievement-api-client
+npmName: challenge-api-client
 typescriptThreePlus: true
 withSeparateModelsAndApi: true
 modelPackage: models

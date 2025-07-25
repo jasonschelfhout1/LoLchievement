@@ -7,13 +7,13 @@ servers:
   - url: http://localhost:8080
 
 paths:
-  ### Achievement
-  /api/achievements/player/{pUUID}/{language}:
+  ### Challenge
+  /api/challenges/player/{pUUID}/{language}:
     get:
-      operationId: getPlayerAchievementByPUUID
-      summary: Get all player achievements by pUUID
+      operationId: getPlayerChallengeByPUUID
+      summary: Get all player challenges by pUUID
       tags:
-        - Achievement
+        - Challenge
       parameters:
         - name: pUUID
           in: path
@@ -29,19 +29,19 @@ paths:
           description: local language
       responses:
         '200':
-          description: Player achievement information
+          description: Player challenge information
           content:
             application/json:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/PlayerAchievementDTO'
-  /api/achievements/{challengeId}/{language}:
+                  $ref: '#/components/schemas/PlayerChallengeDTO'
+  /api/challenges/{challengeId}/{language}:
     get:
-      operationId: getAchievementDetailByChallengeId
-      summary: Get achievement detail by challenge id
+      operationId: getChallengeDetailByChallengeId
+      summary: Get challenge detail by challenge id
       tags:
-        - Achievement
+        - Challenge
       parameters:
         - name: challengeId
           in: path
@@ -57,17 +57,17 @@ paths:
           description: local language
       responses:
         '200':
-          description: Detailed achievement information
+          description: Detailed challenge information
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/AchievementDTO'
-  /api/achievements/token/{challengeId}:
+                $ref: '#/components/schemas/ChallengeDTO'
+  /api/challenges/token/{challengeId}:
     get:
       operationId: getChallengeToken
       summary: Get challenge token image by challenge id and tier
       tags:
-        - Achievement
+        - Challenge
       parameters:
         - name: challengeId
           in: path
@@ -143,9 +143,9 @@ components:
   schemas:
     PlayerDTO:
       $ref: './components/schemas/playerDTO.yaml'
-    PlayerAchievementDTO:
-      $ref: './components/schemas/playerAchievementDTO.yaml'
-    AchievementDTO:
-      $ref: './components/schemas/AchievementDTO.yaml'
+    PlayerChallengeDTO:
+      $ref: './components/schemas/playerChallengeDTO.yaml'
+    ChallengeDTO:
+      $ref: './components/schemas/challengeDTO.yaml'
     Tier:
       $ref: './components/schemas/tier.yaml'

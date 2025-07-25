@@ -1,0 +1,17 @@
+###
+# @no-cookie-jar
+GET http://localhost:8080/api/challenges/player/{{pUUID}}/{{language}}
+Accept: application/json
+
+###
+GET http://localhost:8080/api/challenges/{{challengeId}}/{{language}}
+Accept: application/json
+
+###
+GET http://localhost:8080/api/challenges/token/{{challengeId}}?tier=CHALLENGER
+Accept: image/png
+
+###
+GET https://ddragon.leagueoflegends.com/api/versions.json
+X-Riot-Token: {{token}}
+Accept: application/json

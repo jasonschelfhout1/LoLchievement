@@ -1,19 +1,19 @@
 # LoLchievement
 
-LoLchievement is a web application that allows users to log into their Riot Games account and view a detailed analytical overview of their League of Legends achievements.
+LoLchievement is a web application that allows users to log into their Riot Games account and view a detailed analytical overview of their League of Legends challenges.
 
 ## 🔍 Overview
 
 With LoLchievement, players can:
 - Authenticate securely with their Riot account.
-- View a personalized dashboard of their in-game achievements.
+- View a personalized dashboard of their in-game challenges.
 - Gain insight into progress across various champion roles, game modes, and seasons.
-- Track achievement completion and see what’s left to earn.
+- Track challenge completion and see what’s left to earn.
 
 ## ✨ Features
 
 - 🔐 Riot OAuth login
-- 📊 Dynamic achievement visualization
+- 📊 Dynamic challenge visualization
 - 🧠 Analytics for gameplay trends and progress
 - ⚙️ Responsive and modern UI
 

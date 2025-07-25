@@ -16,15 +16,15 @@ properties:
     format: int64
   state:
     $ref: './state.yaml'
-  achievementThreshHolds:
+  challengeThreshHolds:
     type: array
     items:
-      $ref: '#/components/schemas/AchievementThresholdDTO'
+      $ref: '#/components/schemas/ChallengeThresholdDTO'
 required:
   - challengeId
   - level
   - value
 components:
   schemas:
-    AchievementThresholdDTO:
-      $ref: './achievementThresholdDTO.yaml'
+    ChallengeThresholdDTO:
+      $ref: './challengeThresholdDTO.yaml'

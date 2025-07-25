@@ -1,7 +1,7 @@
-package com.lolchievement.clients.riot.achievement;
+package com.lolchievement.clients.riot.challenge;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.lolchievement.domain.achievement.model.AchievementTracking;
+import com.lolchievement.domain.challenge.model.ChallengeTracking;
 import com.lolchievement.dto.State;
 import lombok.Builder;
 import lombok.Data;
@@ -24,7 +24,7 @@ public class ExternalChallengeConfigDTO {
     private State state;
 
     @JsonProperty("tracking")
-    private AchievementTracking tracking;
+    private ChallengeTracking tracking;
 
     @JsonProperty("startTimestamp")
     private long startTimestamp;
