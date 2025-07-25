@@ -3,28 +3,35 @@ properties:
   challengeId:
     type: integer
     format: int64
-  level:
-    $ref: './tier.yaml'
+    description: Unique identifier for the challenge
+  description:
+    type: string
+    description: Challenge description
+  shortDescription:
+    type: string
+    description: Short description of this challenge
+  tierDTO:
+    $ref: './tierDTO.yaml'
   value:
     type: number
     format: double
+    description: Player's current value for this challenge
   percentile:
     type: number
     format: double
+    description: Player's percentile ranking (0-100)
   achievedTime:
     type: integer
     format: int64
+    description: Timestamp when the current tier was achieved
   state:
     $ref: './state.yaml'
-  challengeThreshHolds:
+  challengeThresholds:
     type: array
     items:
-      $ref: '#/components/schemas/ChallengeThresholdDTO'
+      $ref: './challengeThresholdDTO.yaml'
+    description: Available threshold values for this challenge
 required:
   - challengeId
-  - level
+  - tierDTO
   - value
-components:
-  schemas:
-    ChallengeThresholdDTO:
-      $ref: './challengeThresholdDTO.yaml'

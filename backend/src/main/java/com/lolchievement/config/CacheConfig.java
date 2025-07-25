@@ -16,7 +16,7 @@ public class CacheConfig {
         cacheManager.setCaches(Arrays.asList(
                 new ConcurrentMapCache("challengeCache"),
                 new ConcurrentMapCache("playerChallengeCache"),
-                new ConcurrentMapCache("tokenChallengeCache")
+                new ConcurrentMapCache("challengePercentilesCache")
         ));
         return cacheManager;
     }

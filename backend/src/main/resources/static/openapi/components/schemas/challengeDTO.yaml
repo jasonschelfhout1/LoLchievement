@@ -3,23 +3,29 @@ properties:
   challengeId:
     type: integer
     format: int64
+    description: Unique identifier for the challenge
   name:
     type: string
+    description: Localized name of the challenge
   description:
     type: string
+    description: Localized description of the challenge
   shortDescription:
     type: string
+    description: Localized short description of the challenge
   state:
     $ref: './state.yaml'
-  challengeThreshHolds:
+  challengeThresholds:
     type: array
     items:
-      $ref: '#/components/schemas/ChallengeThresholdDTO'
+      $ref: './challengeThresholdDTO.yaml'
+    description: Threshold values for different tiers
+  challengePercentiles:
+    type: array
+    items:
+      $ref: './challengeThresholdDTO.yaml'
+    description: Percentile values for different tiers
 required:
   - challengeId
-  - level
-  - value
-components:
-  schemas:
-    ChallengeThresholdDTO:
-      $ref: './challengeThresholdDTO.yaml'
+  - name
+  - state

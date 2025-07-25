@@ -2,10 +2,13 @@ type: object
 properties:
   id:
     type: string
+    description: Player's unique UUID
   gameName:
     type: string
+    description: Player's in-game name
   tagName:
     type: string
+    description: Player's tag name
 required:
   - id
   - gameName

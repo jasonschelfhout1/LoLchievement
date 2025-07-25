@@ -8,8 +8,8 @@ import lombok.EqualsAndHashCode;
 @Builder
 @EqualsAndHashCode
 public class PlayerChallenge {
-    private long challengeId;
-    private String level;
+    private Long challengeId;
+    private Tier tier;
     private double value;
     private double percentile;
     private long achievedTime;

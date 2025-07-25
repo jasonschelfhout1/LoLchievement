@@ -1,6 +1,7 @@
 package com.lolchievement.clients.riot.challenge;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.lolchievement.domain.challenge.model.Tier;
 import lombok.Builder;
 import lombok.Data;
 import lombok.extern.jackson.Jacksonized;
@@ -8,13 +9,9 @@ import lombok.extern.jackson.Jacksonized;
 @Data
 @Builder
 @Jacksonized
-public class ExternalChallengePointDTO {
+public class ExternalChallengeThresholdDTO {
     @JsonProperty
-    private String level;
+    private Tier tier;
     @JsonProperty
-    private long current;
-    @JsonProperty
-    private long max;
-    @JsonProperty
-    private long percentile;
+    private double value;
 }

@@ -8,6 +8,37 @@ servers:
 
 paths:
   ### Challenge
+  /api/challenges/{language}:
+    get:
+      operationId: getAllChallenges
+      summary: Get all challenges
+      tags:
+        - Challenge
+      parameters:
+        - name: language
+          in: path
+          required: true
+          schema:
+            type: string
+          description: Local language code (e.g., en_US, de_DE)
+      responses:
+        '200':
+          description: Challenge information
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ChallengeDTO'
+        '400':
+          description: Invalid language parameter
+        '429':
+          description: Rate limit exceeded
+        '502':
+          description: External service error
+        '500':
+          description: Internal server error
+
   /api/challenges/player/{pUUID}/{language}:
     get:
       operationId: getPlayerChallengeByPUUID
@@ -20,13 +51,13 @@ paths:
           required: true
           schema:
             type: string
-          description: Player uuid
+          description: Player UUID
         - name: language
           in: path
           required: true
           schema:
             type: string
-          description: local language
+          description: Local language code
       responses:
         '200':
           description: Player challenge information
@@ -36,6 +67,17 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/PlayerChallengeDTO'
+        '400':
+          description: Invalid parameters
+        '404':
+          description: Player not found
+        '429':
+          description: Rate limit exceeded
+        '502':
+          description: External service error
+        '500':
+          description: Internal server error
+
   /api/challenges/{challengeId}/{language}:
     get:
       operationId: getChallengeDetailByChallengeId
@@ -48,13 +90,13 @@ paths:
           required: true
           schema:
             type: string
-          description: Player uuid
+          description: Challenge ID
         - name: language
           in: path
           required: true
           schema:
             type: string
-          description: local language
+          description: Local language code
       responses:
         '200':
           description: Detailed challenge information
@@ -62,6 +104,17 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ChallengeDTO'
+        '400':
+          description: Invalid challenge ID format
+        '404':
+          description: Challenge not found
+        '429':
+          description: Rate limit exceeded
+        '502':
+          description: External service error
+        '500':
+          description: Internal server error
+
   /api/challenges/token/{challengeId}:
     get:
       operationId: getChallengeToken
@@ -76,12 +129,12 @@ paths:
             type: integer
             format: int64
           description: Challenge ID
-        - name: tier
+        - name: tierDTO
           in: query
           required: false
           schema:
-            $ref: '#/components/schemas/Tier'
-          description: Optional tier
+            $ref: '#/components/schemas/TierDTO'
+          description: Optional tier (defaults to CHALLENGER)
       responses:
         '200':
           description: Challenge token image
@@ -90,6 +143,12 @@ paths:
               schema:
                 type: string
                 format: binary
+        '400':
+          description: Invalid challenge ID or tier
+        '404':
+          description: Challenge token not found
+        '500':
+          description: Internal server error
 
   ### Player
   /api/players/{id}:
@@ -104,7 +163,7 @@ paths:
           required: true
           schema:
             type: string
-          description: Player uuid
+          description: Player UUID
       responses:
         '200':
           description: Player information
@@ -112,6 +171,13 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/PlayerDTO'
+        '400':
+          description: Invalid player ID
+        '404':
+          description: Player not found
+        '500':
+          description: Internal server error
+
   /api/players/{gameName}/{tagName}:
     get:
       operationId: getPlayerByGameAndTagName
@@ -124,7 +190,7 @@ paths:
           required: true
           schema:
             type: string
-          description: In game player name
+          description: In-game player name
         - name: tagName
           in: path
           required: true
@@ -138,6 +204,12 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/PlayerDTO'
+        '400':
+          description: Invalid game name or tag name
+        '404':
+          description: Player not found
+        '500':
+          description: Internal server error
 
 components:
   schemas:
@@ -147,5 +219,9 @@ components:
       $ref: './components/schemas/playerChallengeDTO.yaml'
     ChallengeDTO:
       $ref: './components/schemas/challengeDTO.yaml'
-    Tier:
-      $ref: './components/schemas/tier.yaml'
+    ChallengeThresholdDTO:
+      $ref: './components/schemas/challengeThresholdDTO.yaml'
+    State:
+      $ref: './components/schemas/state.yaml'
+    TierDTO:
+      $ref: './components/schemas/tierDTO.yaml'

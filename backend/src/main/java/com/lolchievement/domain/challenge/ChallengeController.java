@@ -2,12 +2,11 @@ package com.lolchievement.domain.challenge;
 
 import com.lolchievement.api.ChallengeApi;
 import com.lolchievement.clients.riot.challenge.ChallengeClientException;
-import com.lolchievement.domain.challenge.model.Challenge;
-import com.lolchievement.domain.challenge.model.PlayerChallenge;
+import com.lolchievement.domain.challenge.model.Tier;
+import com.lolchievement.domain.exception.ChallengeNotFoundException;
 import com.lolchievement.dto.ChallengeDTO;
 import com.lolchievement.dto.PlayerChallengeDTO;
-import com.lolchievement.dto.Tier;
-import com.lolchievement.mapper.ChallengeMapper;
+import com.lolchievement.dto.TierDTO;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.io.ByteArrayResource;
@@ -28,28 +27,63 @@ import java.util.List;
 @AllArgsConstructor
 public class ChallengeController implements ChallengeApi {
 
+    private final ChallengeFacade challengeFacade;
     private final ChallengeService challengeService;
 
     @Override
+    @GetMapping("/api/challenges/{language}")
+    public ResponseEntity<List<ChallengeDTO>> getAllChallenges(@PathVariable String language) {
+        log.info("Received request to get all challenges for language: {}", language);
+        try {
+            List<ChallengeDTO> challenges = challengeFacade.getAllChallenges(language);
+            log.info("Successfully retrieved {} challenges", challenges.size());
+            return ResponseEntity.ok(challenges);
+        } catch (ChallengeClientException e) {
+            return handleChallengeClientException(e, "retrieving all challenges");
+        } catch (Exception e) {
+            log.error("Unexpected error while retrieving all challenges", e);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
+    }
+
+    @Override
     @GetMapping("/api/challenges/{challengeId}/{language}")
-    public ResponseEntity<ChallengeDTO> getChallengeDetailByChallengeId(@PathVariable String challengeId, @PathVariable String language) {
-        log.info("Received request to get challenge details with challengeId='{}' language='{}'", challengeId, language);
+    public ResponseEntity<ChallengeDTO> getChallengeDetailByChallengeId(
+            @PathVariable String challengeId,
+            @PathVariable String language) {
+        log.info("Received request for challenge {} in language {}", challengeId, language);
         try {
             Long parsedChallengeId = Long.parseLong(challengeId);
-            ChallengeDTO dto = ChallengeMapper.toDTO(challengeService.getChallengeDetail(parsedChallengeId), language);
-            log.info("Successfully retrieved challenge details with challengeId='{}'", challengeId);
-            return ResponseEntity.ok(dto);
+            ChallengeDTO challenge = challengeFacade.getChallengeDetail(parsedChallengeId, language);
+            return ResponseEntity.ok(challenge);
+        } catch (NumberFormatException e) {
+            log.warn("Invalid challenge ID format: {}", challengeId);
+            return ResponseEntity.badRequest().build();
+        } catch (ChallengeNotFoundException e) {
+            log.warn("Challenge not found: {}", challengeId);
+            return ResponseEntity.notFound().build();
         } catch (ChallengeClientException e) {
-            Throwable cause = e.getCause();
-            if (cause instanceof TooManyRequests) {
-                log.warn("Rate limit exceeded while retrieving challenge detail for challengeId='{}'", challengeId);
-                return ResponseEntity.status(HttpStatus.TOO_MANY_REQUESTS).build();
-            } else {
-                log.error("Client error while retrieving challenge detail for challengeId='{}': {}", challengeId, e.getMessage(), e);
-                return ResponseEntity.status(HttpStatus.BAD_GATEWAY).body(null);
-            }
+            return handleChallengeClientException(e, "retrieving challenge " + challengeId);
         } catch (Exception e) {
-            log.error("Unexpected error while retrieving challenge detail for challengeId='{}' language='{}'", challengeId, language, e);
+            log.error("Unexpected error retrieving challenge {}", challengeId, e);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
+    }
+
+    @Override
+    @GetMapping("/api/challenges/player/{pUUID}/{language}")
+    public ResponseEntity<List<PlayerChallengeDTO>> getPlayerChallengeByPUUID(
+            @PathVariable String pUUID,
+            @PathVariable String language) {
+        log.info("Received request for player {} challenges in language {}", pUUID, language);
+        try {
+            List<PlayerChallengeDTO> challenges = challengeFacade.getPlayerChallenges(pUUID, language);
+            log.info("Successfully retrieved {} challenges for player {}", challenges.size(), pUUID);
+            return ResponseEntity.ok(challenges);
+        } catch (ChallengeClientException e) {
+            return handleChallengeClientException(e, "retrieving challenges for player " + pUUID);
+        } catch (Exception e) {
+            log.error("Unexpected error retrieving challenges for player {}", pUUID, e);
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
     }
@@ -58,45 +92,31 @@ public class ChallengeController implements ChallengeApi {
     @GetMapping(value = "/api/challenges/token/{challengeId}", produces = MediaType.IMAGE_PNG_VALUE)
     public ResponseEntity<Resource> getChallengeToken(
             @PathVariable Long challengeId,
-            @RequestParam(required = false) Tier tier) {
-        Tier pTier = Tier.CHALLENGER;
-        if (tier != null) {
-            pTier = tier;
-        }
-        byte[] imageBytes = challengeService.getChallengeTokenByIdAndTier(challengeId, pTier);
-        ByteArrayResource resource = new ByteArrayResource(imageBytes);
-        return ResponseEntity.ok()
-                .contentType(MediaType.IMAGE_PNG)
-                .body(resource);
-    }
-
-    @Override
-    @GetMapping("/api/challenges/player/{pUUID}/{language}")
-    public ResponseEntity<List<PlayerChallengeDTO>> getPlayerChallengeByPUUID(@PathVariable String pUUID, @PathVariable String language) {
-        log.info("Received request to get challenges for player with pUUID='{}' language='{}'", pUUID, language);
+            @RequestParam(defaultValue = "CHALLENGER") TierDTO tier) {
         try {
-            List<PlayerChallenge> playerChallenges = challengeService.getPlayerChallenges(pUUID);
-            List<Long> challengeIds = playerChallenges.stream()
-                    .map(PlayerChallenge::getChallengeId)
-                    .toList();
-
-            List<Challenge> challenges = challengeService.getChallengesForIds(challengeIds);
-
-            log.info("Successfully retrieved {} challenges for player with pUUID='{}'", challenges.size(), pUUID);
-            return ResponseEntity.ok(ChallengeMapper.toDTOList(playerChallenges, challenges));
-        } catch (ChallengeClientException e) {
-            Throwable cause = e.getCause();
-            if (cause instanceof TooManyRequests) {
-                log.warn("Rate limit exceeded while retrieving challenges for player pUUID='{}'", pUUID);
-                return ResponseEntity.status(HttpStatus.TOO_MANY_REQUESTS).build();
-            } else {
-                log.error("Client error while retrieving challenges for player pUUID='{}': {}", pUUID, e.getMessage(), e);
-                return ResponseEntity.status(HttpStatus.BAD_GATEWAY).build();
+            Tier cTier = Tier.fromValue(tier);
+            if (cTier == Tier.NONE) {
+                cTier = Tier.PLATINUM;
             }
+            byte[] imageBytes = challengeService.getChallengeTokenByIdAndTier(challengeId, cTier);
+            ByteArrayResource resource = new ByteArrayResource(imageBytes);
+            return ResponseEntity.ok()
+                    .contentType(MediaType.IMAGE_PNG)
+                    .body(resource);
         } catch (Exception e) {
-            log.error("Unexpected error while retrieving challenges for player with pUUID='{}' language='{}'", pUUID, language, e);
+            log.error("Error retrieving challenge token for challenge {} tier {}", challengeId, tier, e);
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
     }
 
+    private <T> ResponseEntity<T> handleChallengeClientException(
+            ChallengeClientException e, String operation) {
+        if (e.getCause() instanceof TooManyRequests) {
+            log.warn("Rate limit exceeded while {}", operation);
+            return ResponseEntity.status(HttpStatus.TOO_MANY_REQUESTS).build();
+        } else {
+            log.error("Client error while {}: {}", operation, e.getMessage(), e);
+            return ResponseEntity.status(HttpStatus.BAD_GATEWAY).build();
+        }
+    }
 }

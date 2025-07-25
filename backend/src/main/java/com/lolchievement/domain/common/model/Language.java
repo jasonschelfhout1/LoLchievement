@@ -8,7 +8,7 @@ import lombok.EqualsAndHashCode;
 @Builder
 @EqualsAndHashCode
 public class Language {
-    private String format;
+    private String languageFormat;
     private String name;
     private String description;
     private String shortDescription;

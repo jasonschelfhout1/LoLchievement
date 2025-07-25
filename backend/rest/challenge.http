@@ -12,6 +12,16 @@ GET http://localhost:8080/api/challenges/token/{{challengeId}}?tier=CHALLENGER
 Accept: image/png
 
 ###
+GET https://euw1.api.riotgames.com/lol/challenges/v1/player-data/{{pUUID}}
+X-Riot-Token: {{token}}
+Accept: application/json
+
+###
+GET https://euw1.api.riotgames.com/lol/challenges/v1/challenges/{{challengeId}}/config
+X-Riot-Token: {{token}}
+Accept: application/json
+
+###
 GET https://ddragon.leagueoflegends.com/api/versions.json
 X-Riot-Token: {{token}}
 Accept: application/json

@@ -5,8 +5,9 @@ enum:
   - SILVER
   - GOLD
   - PLATINUM
-  - EMERALD
   - DIAMOND
   - MASTER
   - GRANDMASTER
   - CHALLENGER
+  - NONE
+description: Challenge rank tiers

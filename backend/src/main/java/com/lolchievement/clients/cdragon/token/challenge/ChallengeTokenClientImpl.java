@@ -1,7 +1,7 @@
 package com.lolchievement.clients.cdragon.token.challenge;
 
 import com.lolchievement.config.RiotApiKeyRestTemplate;
-import com.lolchievement.dto.Tier;
+import com.lolchievement.domain.challenge.model.Tier;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -31,7 +31,7 @@ public class ChallengeTokenClientImpl implements ChallengeTokenClient {
                 challengesUri);
 
         try {
-            return restTemplate.getForObject(url, byte[].class, challengeId, tier.getValue().toLowerCase());
+            return restTemplate.getForObject(url, byte[].class, challengeId, tier.name().toLowerCase());
         } catch (Exception e) {
             log.error("Failed to fetch image token by challengeId: {} tier: {}", challengeId, tier, e);
             throw new ChallengeTokenClientException("Could not retrieve image token", e);

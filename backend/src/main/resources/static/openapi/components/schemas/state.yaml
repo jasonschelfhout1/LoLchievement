@@ -4,3 +4,4 @@ enum:
   - HIDDEN
   - ENABLED
   - ARCHIVED
+description: Current state of the challenge

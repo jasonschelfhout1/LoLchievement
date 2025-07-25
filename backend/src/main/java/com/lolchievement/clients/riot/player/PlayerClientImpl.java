@@ -32,7 +32,7 @@ public class PlayerClientImpl implements PlayerClient {
         try {
             return restTemplate.getForObject(url, ExternalPlayerDTO.class, pUUID);
         } catch (Exception e) {
-            log.error("Failed to fetch player by PUUID: {}", pUUID, e);
+            log.error("Failed to fetch player by pUUID: {}", pUUID, e);
             throw new PlayerClientException("Could not retrieve player info", e);
         }
     }
