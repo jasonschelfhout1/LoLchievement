@@ -11,6 +11,9 @@ public class OAuthRestTemplate extends RestTemplate {
     private static final String CLIENT_REGISTRATION_ID = "riot";
     private static final String PRINCIPAL_NAME = "lolchievement-client";
 
+    /**
+     * @deprecated
+     */
     public OAuthRestTemplate(final AuthorizedClientServiceOAuth2AuthorizedClientManager authorizedClientManager) {
         DefaultUriBuilderFactory uriBuilderFactory = new DefaultUriBuilderFactory();
         uriBuilderFactory.setEncodingMode(DefaultUriBuilderFactory.EncodingMode.NONE); // keep {} intact for URI variables

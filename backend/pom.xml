@@ -23,6 +23,8 @@
         <org.openapitools.version>0.2.6</org.openapitools.version>
         <org.projectlombok.version>1.18.38</org.projectlombok.version>
         <org.springframework.security.version>6.5.1</org.springframework.security.version>
+        <sonar.organization>jasonschelfhout1</sonar.organization>
+        <sonar.host.url>https://sonarcloud.io</sonar.host.url>
     </properties>
     <dependencies>
         <dependency>
