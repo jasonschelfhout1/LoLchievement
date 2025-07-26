@@ -17,6 +17,7 @@
 /build
 
 # misc
+/.idea/
 .DS_Store
 *.pem
 
@@ -38,14 +39,13 @@ next-env.d.ts
 
 # frontend
 /frontend/.next
+/frontend/.idea
 /frontend/node_modules
 /frontend/.env.local
+/frontend/generated/
 
 # backend
 /backend/target
 /backend/.env
 /backend/.idea
 /backend/rest/http-client.private.env.json
-/.idea/
-/frontend/src/generated/
-/frontend/src/
