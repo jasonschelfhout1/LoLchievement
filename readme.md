@@ -61,22 +61,23 @@ npm run dev
 
 ### Backend Setup
 
-bash
-Copy
-Edit
+``` bash
 cd backend
 ./mvnw spring-boot:run
-Configure your application properties with the Riot API key and database credentials.
+```
+
+#### Notes:
+
+- Configure your application properties with the Riot API key and database credentials.
+    - Riot API Key: {RIOT_TOKEN}
 
 ## 📌 Roadmap
 
-1.Challenge overview
-
+1. Challenge overview
 2. Add user profile overview
-
-- Arena champion progression overviez
-- Display match history highlights (arena)
-- Support for additional Riot games (e.g., TFT, LoR)
+3. Arena champion progression overview
+4. Display match history highlights (arena)
+5. Support for additional Riot games (e.g., TFT, LoR)
 
 ## 🏁 Progression
 
